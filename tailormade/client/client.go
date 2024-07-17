@@ -25,9 +25,9 @@ import (
 	"reflect"
 	"time"
 
-	e "github.com/quanxiang-cloud/cabin/error"
-	"github.com/quanxiang-cloud/cabin/tailormade/header"
-	"github.com/quanxiang-cloud/cabin/tailormade/resp"
+	e "github.com/ymqing-sre/cabin/error"
+	"github.com/ymqing-sre/cabin/tailormade/header"
+	"github.com/ymqing-sre/cabin/tailormade/resp"
 )
 
 // Config client config
@@ -75,6 +75,8 @@ func POST(ctx context.Context, client *http.Client, uri string, params interface
 	req.Header.Add(header.GetRequestIDKV(ctx).Wreck())
 	req.Header.Add(header.GetTimezone(ctx).Wreck())
 	req.Header.Add(header.GetTenantID(ctx).Wreck())
+	req.Header.Add(header.GetUserID(ctx).Wreck())
+	req.Header.Add(header.GetUserName(ctx).Wreck())
 
 	response, err := client.Do(req)
 	if err != nil {
