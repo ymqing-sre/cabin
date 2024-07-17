@@ -22,6 +22,10 @@ const (
 	Timezone = "Timezone"
 
 	TenantID = "Tenant-Id"
+
+	UserID = "User-Id"
+
+	UserName = "User-Name"
 )
 
 // MutateContext return context.Context,
@@ -31,11 +35,15 @@ func MutateContext(c CTX) context.Context {
 		_requestID interface{} = "Request-Id"
 		_timezone  interface{} = "Timezone"
 		_tenantID  interface{} = "Tenant-Id"
+		_userID    interface{} = "User-Id"
+		_userName  interface{} = "User-Name"
 	)
 	ctx := context.Background()
 	ctx = context.WithValue(ctx, _requestID, c.GetHeader(RequestID))
 	ctx = context.WithValue(ctx, _timezone, c.GetHeader(Timezone))
 	ctx = context.WithValue(ctx, _tenantID, c.GetHeader(TenantID))
+	ctx = context.WithValue(ctx, _userID, c.GetHeader(UserID))
+	ctx = context.WithValue(ctx, _userName, c.GetHeader(UserName))
 	return ctx
 }
 
@@ -88,4 +96,24 @@ func GetTenantID(ctx context.Context) KV {
 		return KV{TenantID, tid}
 	}
 	return KV{TenantID, "unexpected type"}
+}
+
+// GetUserID return userID
+func GetUserID(ctx context.Context) KV {
+	i := ctx.Value(UserID)
+	uid, ok := i.(string)
+	if ok {
+		return KV{UserID, uid}
+	}
+	return KV{UserID, "unexpected type"}
+}
+
+// GetUserName return userName
+func GetUserName(ctx context.Context) KV {
+	i := ctx.Value(UserName)
+	uname, ok := i.(string)
+	if ok {
+		return KV{UserName, uname}
+	}
+	return KV{UserName, "unexpected type"}
 }
